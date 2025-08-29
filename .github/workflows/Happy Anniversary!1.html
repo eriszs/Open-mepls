@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --primary-accent: #ff6b9d;
+            --secondary-accent: #c44569;
+            --background-start: #667eea;
+            --background-end: #764ba2;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-blur: 16px;
+            --card-border: rgba(255, 255, 255, 0.18);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(var(--card-blur));
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid var(--card-border);
+            animation: slideIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid transparent;
+            color: white;
+            padding: 12px 25px;
+            margin: 5px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out forwards;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page Styles */
+        .hero { text-align: center; padding: 50px 0; }
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+        }
+        .hero p { font-size: 1.3rem; margin-bottom: 35px; }
+        .exclamation {
+            color: var(--primary-accent);
+            animation: pulse 2s infinite ease-in-out;
+            display: inline-block;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .message-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: left;
+            border-top: 1px solid var(--card-border);
+        }
+        .message-box h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-accent);
+        }
+        .message-box p { font-size: 1.15rem; line-height: 1.8; }
+
+        /* Gallery Styles */
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .gallery-controls { text-align: center; margin-bottom: 40px; }
+        #addMemoryBtn {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            border: none; color: white; padding: 12px 25px; border-radius: 30px;
+            cursor: pointer; font-size: 1rem; font-weight: bold;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0, 0.3);
+        }
+        #addMemoryBtn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 6px 15px rgba(0,0,0, 0.4); }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .photo-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(var(--card-blur));
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .photo-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white; border: none;
+            border-radius: 50%; width: 28px; height: 28px;
+            font-size: 20px; line-height: 28px; text-align: center;
+            cursor: pointer; transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .photo-card:hover .delete-btn { opacity: 1; }
+        .delete-btn:hover { background: var(--primary-accent); transform: scale(1.1); }
+
+        .photo-placeholder {
+            width: 100%; height: 220px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 18px;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden; position: relative;
+        }
+        .photo-placeholder:hover { background: rgba(0, 0, 0, 0.3); border-color: rgba(255, 255, 255, 0.8); }
+        .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .photo-placeholder:hover img { transform: scale(1.05); }
+        .photo-placeholder::before {
+            content: 'Click to Upload';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.5); color: white;
+            font-size: 1.2rem; font-weight: 700;
+            opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .photo-placeholder:not(.has-image):hover::before { opacity: 1; }
+        .message-input {
+            width: 100%; background: rgba(0, 0, 0, 0.3); border: none;
+            border-radius: 10px; padding: 12px; color: white; font-size: 1rem;
+            resize: vertical; min-height: 60px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); transition: background 0.3s ease;
+        }
+        .message-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        .message-input:focus {
+            outline: none; background: rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 1px 5px rgba(0,0,0,0.3), 0 0 0 2px var(--primary-accent);
+        }
+
+        /* Game Styles */
+        .game-container { text-align: center; position: relative; }
+        #gameCanvas {
+            border: 4px solid var(--card-border);
+            border-radius: 20px;
+            background: #000;
+            margin: 25px auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            display: block; width: 100%; max-width: 800px;
+            aspect-ratio: 2 / 1;
+        }
+        #gameOverScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 10;
+        }
+        #gameOverScreen h3 { font-size: 2.5rem; font-family: 'Montserrat', sans-serif; }
+        #gameOverScreen p { font-size: 1.2rem; margin-top: 10px; }
+        #gameOverScreen.active { display: flex; }
+
+        .game-ui {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px; border-radius: 15px; margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-wrap: wrap; gap: 15px;
+        }
+        .score-display { font-size: 1.5rem; font-weight: 700; color: var(--primary-accent); }
+        .start-btn {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            border: none; color: white; padding: 15px 30px; border-radius: 30px;
+            cursor: pointer; font-size: 1.1rem; font-weight: bold;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0, 0.3);
+        }
+        .start-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0, 0.4); }
+        .start-btn:disabled { background: #666; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .rewards-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 18px; padding: 25px; margin-top: 25px;
+        }
+        .rewards-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem; margin-bottom: 20px; color: var(--primary-accent);
+        }
+        .reward-item {
+            background: rgba(255, 255, 255, 0.1); margin: 12px 0;
+            padding: 18px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease;
+        }
+        .reward-unlocked { background: rgba(76, 175, 80, 0.3); border-left: 5px solid #4CAF50; }
+        .unlock-btn {
+            background: #4CAF50; border: none; color: white;
+            padding: 10px 20px; border-radius: 25px; cursor: pointer;
+            font-size: 0.95rem; font-weight: bold; transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .unlock-btn.glowing {
+            animation: glow 1.5s infinite alternate;
+            box-shadow: 0 0 5px #4CAF50, 0 0 10px #4CAF50, 0 0 15px #6bc46f;
+        }
+        @keyframes glow { from { opacity: 0.8; } to { opacity: 1; } }
+        .unlock-btn:hover:not(:disabled) { background: #6bc46f; transform: translateY(-2px); }
+        .unlock-btn:disabled { background: rgba(102, 102, 102, 0.6); cursor: not-allowed; box-shadow: none; }
+        .controls { margin-top: 20px; font-size: 1rem; opacity: 0.9; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .game-ui { flex-direction: column; align-items: stretch; }
+            .start-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <button class="nav-btn active" onclick="showPage('home')"><span>🏠</span> Home</button>
+            <button class="nav-btn" onclick="showPage('gallery')"><span>🖼️</span> Our Memories</button>
+            <button class="nav-btn" onclick="showPage('game')"><span>🚀</span> Space Adventure</button>
+        </nav>
+
+        <div class="page active" id="home">
+            <div class="hero">
+                <h1>Happy Anniversary <span class="exclamation">!</span></h1>
+                <p>Lucky to have you as my gf!</p>
+                <div class="message-box">
+                    <h2>Hi baby!</h2>
+                    <p>
+                        Helloooo happy anniversary to us! 1 yr na tayo shet. We got to this point because we always try to fix things pag nag aaway tayo hehe. I appreciate you like a lot, thank you for always being patient with me, im sorry if i overthink things and then suddenly go dry. You mean a lot to me and because of that I don't ever want to lose you. Hay I'm so lucky to have you hehe, I love you so much baby muah!!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="gallery">
+            <h2 class="gallery-header">Our Beautiful Journey</h2>
+            <div class="gallery-controls">
+                <button id="addMemoryBtn">+ Add New Memory</button>
+            </div>
+            <div class="gallery-grid">
+                </div>
+        </div>
+
+        <div class="page" id="game">
+            <div class="game-container">
+                <canvas id="gameCanvas" width="800" height="400"></canvas>
+                <div id="gameOverScreen">
+                    <h3>GAME OVER</h3>
+                    <p id="finalScore"></p>
+                </div>
+                <div class="game-ui">
+                    <span class="score-display">Score: <span id="score">0</span></span>
+                    <button class="start-btn" id="startGameBtn">Start Game</button>
+                </div>
+                <p class="controls">Use Arrow Keys to Move! Shooting is automatic.</p>
+                <div class="rewards-section">
+                    <h3>Anniversary Rewards</h3>
+                    <div class="reward-item" id="reward1">
+                        <span>Reward 1: Kiss!!</span>
+                        <button class="unlock-btn">Unlock (Score: 100)</button>
+                    </div>
+                    <div class="reward-item" id="reward2">
+                        <span>Reward 2: Any food/drink</span>
+                        <button class="unlock-btn">Unlock (Score: 250)</button>
+                    </div>
+                    <div class="reward-item" id="reward3">
+                        <span>Reward 3: Anything that you want!!</span>
+                        <button class="unlock-btn">Unlock (Score: 500)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="photoCardTemplate">
+        <div class="photo-card">
+            <button class="delete-btn" title="Delete memory">&times;</button>
+            <div class="photo-placeholder">
+                <img src="" alt="Memory Photo" style="display: none;">
+            </div>
+            <textarea class="message-input" placeholder="Add a memory for this photo..."></textarea>
+        </div>
+    </template>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Page Setup ---
+        loadGalleryData();
+        initializeRewards();
+        drawCanvasMessage('Game Area');
+
+        // --- Event Listeners ---
+        document.getElementById('addMemoryBtn').addEventListener('click', () => {
+            createPhotoCard();
+            saveGalleryData();
+        });
+        document.getElementById('startGameBtn').addEventListener('click', startGame);
+    });
+
+    // --- Page Navigation ---
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('onclick').includes(`'${pageId}'`)) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // --- Gallery Logic (with Delete) ---
+    const galleryGrid = document.querySelector('.gallery-grid');
+    const photoCardTemplate = document.getElementById('photoCardTemplate');
+
+    function createPhotoCard(data = { imgSrc: '', message: '' }) {
+        const cardFragment = photoCardTemplate.content.cloneNode(true);
+        const card = cardFragment.querySelector('.photo-card');
+        const placeholder = card.querySelector('.photo-placeholder');
+        const img = card.querySelector('img');
+        const textarea = card.querySelector('textarea');
+        const deleteBtn = card.querySelector('.delete-btn');
+
+        if (data.imgSrc && data.imgSrc.startsWith('data:image')) {
+            img.src = data.imgSrc;
+            img.style.display = 'block';
+            placeholder.classList.add('has-image');
+        }
+        textarea.value = data.message;
+        
+        placeholder.addEventListener('click', () => uploadPhoto(placeholder));
+        textarea.addEventListener('input', saveGalleryData);
+        deleteBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this memory?')) {
+                card.remove();
+                saveGalleryData();
+            }
+        });
+        galleryGrid.appendChild(card);
+    }
+
+    function uploadPhoto(placeholderDiv) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const img = placeholderDiv.querySelector('img');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                    placeholderDiv.classList.add('has-image');
+                    saveGalleryData();
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        input.click();
+    }
+
+    function saveGalleryData() {
+        const dataToSave = Array.from(document.querySelectorAll('.photo-card')).map(card => ({
+            imgSrc: card.querySelector('img').src,
+            message: card.querySelector('textarea').value
+        }));
+        localStorage.setItem('anniversaryGallery', JSON.stringify(dataToSave));
+    }
+
+    function loadGalleryData() {
+        const savedData = JSON.parse(localStorage.getItem('anniversaryGallery') || 'null');
+        galleryGrid.innerHTML = '';
+        if (savedData && savedData.length > 0) {
+            savedData.forEach(createPhotoCard);
+        } else {
+            [...Array(3)].forEach(() => createPhotoCard());
+        }
+    }
+
+    // --- Game Logic (Automatic Shooting) ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreDisplay = document.getElementById('score');
+    const startGameBtn = document.getElementById('startGameBtn');
+    const gameOverScreen = document.getElementById('gameOverScreen');
+    const finalScoreDisplay = document.getElementById('finalScore');
+    
+    let score, gameLoopId, player, bullets, enemies, keys, fireCooldown;
+    const FIRE_RATE = 20; // Lower number = faster shooting (shots per frame)
+
+    function initGame() {
+        score = 0;
+        scoreDisplay.textContent = '0';
+        keys = { ArrowLeft: false, ArrowRight: false, ArrowUp: false, ArrowDown: false };
+        player = { 
+            x: canvas.width / 2 - 25, 
+            y: canvas.height - 60, 
+            width: 50, 
+            height: 30, 
+            speed: 5, 
+            color: '#ff6b9d' 
+        };
+        bullets = [];
+        enemies = [];
+        fireCooldown = 0;
+        resetRewards();
+        gameOverScreen.classList.remove('active');
+    }
+
+    function isColliding(rect1, rect2) {
+        return rect1.x < rect2.x + rect2.width &&
+               rect1.x + rect1.width > rect2.x &&
+               rect1.y < rect2.y + rect2.height &&
+               rect1.y + rect1.height > rect2.y;
+    }
+
+    function gameLoop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Update Player
+        if (keys.ArrowLeft && player.x > 0) player.x -= player.speed;
+        if (keys.ArrowRight && player.x < canvas.width - player.width) player.x += player.speed;
+        if (keys.ArrowUp && player.y > 0) player.y -= player.speed;
+        if (keys.ArrowDown && player.y < canvas.height - player.height) player.y += player.speed;
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+
+        // Automatic Shooting
+        if (fireCooldown <= 0) {
+            bullets.push({ 
+                x: player.x + player.width / 2 - 2.5, 
+                y: player.y,
+                width: 5,
+                height: 10,
+                speed: 7,
+                color: 'white'
+            });
+            fireCooldown = FIRE_RATE; // Reset cooldown
+        } else {
+            fireCooldown--;
+        }
+
+        // Update Bullets
+        bullets.forEach((bullet, index) => {
+            bullet.y -= bullet.speed;
+            ctx.fillStyle = bullet.color;
+            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            if (bullet.y < 0) bullets.splice(index, 1);
+        });
+
+        // Update Enemies
+        if (Math.random() < 0.04) {
+            const size = Math.random() * 30 + 20;
+            enemies.push({ 
+                x: Math.random() * (canvas.width - size),
+                y: -size,
+                width: size,
+                height: size,
+                speed: Math.random() * 2 + 1,
+                color: '#764ba2'
+            });
+        }
+        enemies.forEach((enemy, eIndex) => {
+            enemy.y += enemy.speed;
+            ctx.fillStyle = enemy.color;
+            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            if (enemy.y > canvas.height) enemies.splice(eIndex, 1);
+
+            if (isColliding(player, enemy)) endGame();
+
+            bullets.forEach((bullet, bIndex) => {
+                if (isColliding(bullet, enemy)) {
+                    enemies.splice(eIndex, 1);
+                    bullets.splice(bIndex, 1);
+                    score += 10;
+                    scoreDisplay.textContent = score;
+                    checkRewards();
+                }
+            });
+        });
+
+        gameLoopId = requestAnimationFrame(gameLoop);
+    }
+
+    function startGame() {
+        initGame();
+        startGameBtn.textContent = "Playing...";
+        startGameBtn.disabled = true;
+        gameLoop();
+    }
+        
+    function endGame() {
+        cancelAnimationFrame(gameLoopId);
+        finalScoreDisplay.textContent = `Final Score: ${score}`;
+        gameOverScreen.classList.add('active');
+        startGameBtn.textContent = "Play Again?";
+        startGameBtn.disabled = false;
+    }
+
+    window.addEventListener('keydown', e => {
+        if (keys.hasOwnProperty(e.key)) keys[e.key] = true;
+    });
+    window.addEventListener('keyup', e => {
+        if (keys.hasOwnProperty(e.key)) keys[e.key] = false;
+    });
+
+    // --- Reward Logic ---
+    const rewardsData = [
+        { id: 1, minScore: 100 },
+        { id: 2, minScore: 250 },
+        { id: 3, minScore: 500 }
+    ];
+
+    function initializeRewards() {
+        rewardsData.forEach(reward => {
+            const btn = document.querySelector(`#reward${reward.id} .unlock-btn`);
+            btn.addEventListener('click', () => unlockReward(reward.id));
+        });
+        resetRewards();
+    }
+
+    function checkRewards() {
+        rewardsData.forEach(reward => {
+            const btn = document.querySelector(`#reward${reward.id} .unlock-btn`);
+            if (score >= reward.minScore && btn.disabled) {
+                btn.disabled = false;
+                btn.textContent = "Claim Reward!";
+                btn.classList.add('glowing');
+            }
+        });
+    }
+
+    function unlockReward(rewardId) {
+        const rewardItem = document.getElementById(`reward${rewardId}`);
+        const btn = rewardItem.querySelector('.unlock-btn');
+        if (!btn.disabled) {
+            rewardItem.classList.add('reward-unlocked');
+            btn.textContent = "Claimed ✔";
+            btn.disabled = true;
+            btn.classList.remove('glowing');
+            alert(`Congratulations! You've unlocked Reward ${rewardId}!`);
+        }
+    }
+
+    function resetRewards() {
+        rewardsData.forEach(reward => {
+            const item = document.getElementById(`reward${reward.id}`);
+            const btn = item.querySelector('.unlock-btn');
+            item.classList.remove('reward-unlocked');
+            btn.classList.remove('glowing');
+            btn.disabled = true;
+            btn.textContent = `Unlock (Score: ${reward.minScore})`;
+        });
+    }
+
+    function drawCanvasMessage(message) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.font = "24px 'Montserrat', sans-serif";
+        ctx.textAlign = 'center';
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+    }
+    </script>
+</body>
+</html>
